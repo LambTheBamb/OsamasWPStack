@@ -45,8 +45,8 @@ apachesetup(){
 
 ##change the ports and stuff before enabling site....
 
-	sudo awk {print $0;'<VirtualHost *:8081> \n ServerName osama.com \n ServerAdmin webmaster@localhost \n DocumentRoot /var/www/osama \n ServerAlias www.osama.com\n <Directory /var/www/osama>\n AllowOverride All\n>
-\n</VirtualHost>\n'> /etc/apache2/sites-available/osama.conf
+	sudo awk {print $0; printf '<VirtualHost *:8081> \n ServerName osama.com \n ServerAdmin webmaster@localhost \n DocumentRoot /var/www/osama \n ServerAlias www.osama.com\n <Directory /var/www/osama>\n AllowOverride All\n </Directory> \n ErrorLog ${APACHE_LOG_DIR}/error.log \n
+CustomLog ${APACHE_LOG_DIR}/access.log combined \n\n</VirtualHost>\n' > /etc/apache2/sites-available/osama.conf
 
 	sudo a2ensite osama.conf
 #########Abondoned########  awk '{ print $0 ; if(NR == 10) printf "DocumentRoot=/var/www/osama\n  ServerName osama.com\n  ServerAlias www.osama.com\n <Directory /var/www/osama>\n AllowOverride All\n  </Director>
