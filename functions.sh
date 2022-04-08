@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sudo -i
 ## making the server user to a root to avoid permission issues.
 Download(){
  echo "your disired package name:$1" ##### this installs your package one by one check if its installed or not and then work
@@ -26,7 +26,7 @@ Download(){
 
 ################################################################### Reverse PROXY SETUP###################################################
 apachesetup(){
-	sudo -i
+	#sudo -i
 	echo "################Apache setup in Place##########################3"
 	sudo a2dismod php7.4
 ####sudo apt-get --assume-yes install php7.4-fpm
@@ -65,7 +65,7 @@ CustomLog ${APACHE_LOG_DIR}/access.log combined \n\n</VirtualHost>\n' > /etc/apa
 #### STILL HAVE TO MAKE DIRECTORY.. NO NEED TO ADD IN ANY FUNCTIONS.... 
 
 varnishsetup(){
-sudo -i
+#sudo -i
 #echo "################VARNISH SETUP##########################";
 
 varnishport=$(grep '\-a' /lib/systemd/system/varnish.service| sed 's/.*\-a ://' |cut -d ' ' -f 1);
@@ -88,7 +88,7 @@ echo "#################VARNISHS SETUP COMPLETED###############";
 
 
 nginxsetup(){
-	sduo -i
+	#sduo -i
 	echo "########################ALL CHANGES IN NGINX TAKING PLACE#########################";
 	sudo touch /etc/nginx/conf.d/backend.conf
 ##Either this or  echo "upstream backend { server 127.0.0.1:8080 fail_timeout=5s weight=5;\n server 127.0.0.1:8081 backup;\n  #upstream} | tee /etc/nginx/conf.d/backend.conf
@@ -97,7 +97,7 @@ nginxsetup(){
 	sudo mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
 	sudo mv /etc/nginx/sites-available/default.backup /home/ubuntu
 
-	sudo awk{print $0; printf 'server {\n listen 80 default_server;\n listen [::]:80 default_server;\n index index.html index.htm index.nginx-debian.html index.php;\n server_name osama;\n location / {\n proxy_pass http://backend;\n  proxy_set_header Host $host; \n proxy_set_header X-Real-IP $remote_addr; \n proxy_set_header X-Forwarded-Host $host:$server_port; \n proxy_set_header X-Forwarded-Server $host; \n proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \n proxy_set_header X-Forwarded-Proto $scheme; \n } \n}' > /etc/nginx/sites-available/osama.com
+	sudo awk {print $0; printf 'server {\n listen 80 default_server;\n listen [::]:80 default_server;\n index index.html index.htm index.nginx-debian.html index.php;\n server_name osama;\n location / {\n proxy_pass http://backend;\n  proxy_set_header Host $host; \n proxy_set_header X-Real-IP $remote_addr; \n proxy_set_header X-Forwarded-Host $host:$server_port; \n proxy_set_header X-Forwarded-Server $host; \n proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \n proxy_set_header X-Forwarded-Proto $scheme; \n } \n}' > /etc/nginx/sites-available/osama.com
 
 	sudo ln -s /etc/nginx/sites-available/osama.com /etc/nginx/sites-enabled/osama.com
 	sudo rm -rf /etc/nginx/sites-available/default
@@ -109,7 +109,7 @@ nginxsetup(){
 #####################################reverse proxy setup finished#############################
 
 mysqlsetup(){
-	sudo -i
+	#sudo -i
 	echo "#################MYSQL DB CREATION ###################";
 
 	sudo systemctl start mariadb
@@ -127,7 +127,7 @@ mysqlsetup(){
 
 sysreboot(){
 
-	sudo -i
+	#sudo -i
 	echo "####################REBOOOTING SYSTEM##################";
 	sudo systemctl restart nginx varnish apache2 mysql
 	
@@ -138,7 +138,7 @@ sysreboot(){
 
 
 wpsetup(){
-	sudo -i
+	#sudo -i
 	sudo curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 	sudo chmod +x wp-cli.phar
 	sudo mv wp-cli.phar /usr/local/bin/wp   ###Infamous wp-cli. needed it for the next step hence using it...
